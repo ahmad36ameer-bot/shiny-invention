@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة واصبر نفسك - كتيب شيفرة السلوك الرقمي التفاعلي</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Cairo Font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950 min-h-screen flex flex-col justify-between">
+
+  <div id="app" class="min-h-screen flex flex-col justify-between">
+    
+    <!-- Top Header -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-emerald-900/40 sticky top-0 z-40 shadow-lg">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3 space-x-reverse">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-800 flex items-center justify-center text-emerald-100 font-bold text-xl shadow-lg shadow-emerald-900/30">
+            📘
+          </div>
+          <div>
+            <h1 class="text-xl font-extrabold bg-gradient-to-r from-emerald-200 via-teal-100 to-amber-200 bg-clip-text text-transparent">
+              منصة واصبر نفسك
+            </h1>
+            <p class="text-[11px] text-emerald-400/90 font-semibold">كتيب شيفرة السلوك الرقمي التفاعلي</p>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex flex-wrap justify-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 text-xs font-bold">
+          <button id="btn-workbook" onclick="switchTab('workbook')" class="tab-btn px-4 py-2 rounded-xl transition-all bg-emerald-700 text-white shadow-md flex items-center space-x-1.5 space-x-reverse">
+            <span>📘 الكتيب الرقمي التفاعلي</span>
+          </button>
+          <button id="btn-coach" onclick="switchTab('coach')" class="tab-btn px-4 py-2 rounded-xl transition-all text-slate-400 hover:text-white flex items-center space-x-1.5 space-x-reverse">
+            <span>🧠 الموجه الذكي</span>
+          </button>
+          <button id="btn-tracker" onclick="switchTab('tracker')" class="tab-btn px-4 py-2 rounded-xl transition-all text-slate-400 hover:text-white flex items-center space-x-1.5 space-x-reverse">
+            <span>📊 شيفرة السلوك (7 أيام)</span>
+          </button>
+        </nav>
+
+        <!-- Activation / Unlock Button -->
+        <button id="activationBadgeBtn" onclick="togglePaywallModal(true)" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md hover:from-amber-400 hover:to-amber-500 transition flex items-center space-x-1.5 space-x-reverse">
+          <span id="badgeIcon">🔑</span>
+          <span id="badgeText">تفعيل الكتيب (10 JOD / $10)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
+
+      <!-- ================= TAB 1: INTERACTIVE WORKBOOK ================= -->
+      <section id="tab-workbook" class="tab-content space-y-6 animate-fade-in">
+        
+        <!-- Header Banner -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 border border-emerald-800/60 p-6 md:p-8 shadow-2xl space-y-3">
+          <div class="flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div class="space-y-2 max-w-2xl">
+              <span class="inline-block bg-emerald-900/80 text-emerald-300 text-xs px-3 py-1 rounded-full border border-emerald-700 font-semibold">
+                الكراسة التفاعلية الرقمية المباشرة
+              </span>
+              <h2 class="text-2xl md:text-3xl font-extrabold text-slate-50">
+                كتيب «شيفرة السلوك» الرقمي
+              </h2>
+              <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
+                قم بتفكيك أهدافك السلوكية، ورصد مراحل التحول الخمس، وتحديد عادتك الميكروية وتثبيتها تلقائياً في سجل المتابعة اليومية.
+              </p>
+            </div>
+            
+            <div id="workbookStatusBanner" class="bg-amber-950/80 p-4 rounded-2xl border border-amber-800 text-center space-y-2 shrink-0">
+              <span class="text-xs text-amber-300 font-bold block">النسخة الرقمية المعاينة</span>
+              <button onclick="togglePaywallModal(true)" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow transition">
+                افتح الكتيب الكامل الآن
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 1: Breakdown Form -->
+        <div class="bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-800 shadow-xl space-y-6">
+          <div class="border-b border-slate-800 pb-4 flex items-center space-x-3 space-x-reverse">
+            <div class="w-8 h-8 rounded-full bg-emerald-900 text-emerald-300 flex items-center justify-center font-bold text-sm">1</div>
+            <div>
+              <h3 class="font-bold text-slate-100 text-base">1. تمرين تفكيك الهدف السلوكي (العادة الميكروية)</h3>
+              <p class="text-xs text-slate-400">صغ هدفك لعادة لا تتجاوز دقيقتين مربوطة بمحفز يومي ثابت.</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+            <div class="space-y-1.5">
+              <label class="text-slate-300 font-bold block">الهدف السلوكي العام:</label>
+              <input type="text" id="wbGoal" placeholder="مثال: الحفاظ على الدراسة، ترك التشتت..." class="w-full p-3.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-slate-300 font-bold block">العادة الميكروية البديلة (دقيقتان):</label>
+              <input type="text" id="wbHabit" placeholder="مثال: قراءة صفحة واحدة، حل مسألة واحدة..." class="w-full p-3.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-slate-300 font-bold block">المحفز اليومي (العادة المرتكزة):</label>
+              <input type="text" id="wbTrigger" placeholder="مثال: بعد صلاة الفجر، بعد شرب القهوة..." class="w-full p-3.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+          </div>
+
+          <button onclick="saveWorkbookEntry()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+            <span>✨ حفظ العادة من الكتيب ونقلها لجدول المتابعة اليومية</span>
+          </button>
+        </div>
+
+        <!-- Section 2: 5-Stage Table -->
+        <div class="bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-800 shadow-xl space-y-4">
+          <div class="border-b border-slate-800 pb-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+              <div class="w-8 h-8 rounded-full bg-teal-900 text-teal-300 flex items-center justify-center font-bold text-sm">2</div>
+              <div>
+                <h3 class="font-bold text-slate-100 text-base">2. جدول تفكيك المراحل الخمس للعادة المختارة</h3>
+                <p class="text-xs text-slate-400">إستراتيجيات التماسك والتغلب على التشتت والتردد.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="p-3.5 w-1/5">المرحلة</th>
+                  <th class="p-3.5 w-2/5">التحدي المتوقع</th>
+                  <th class="p-3.5 w-2/5">إستراتيجية التماسك والتغلب</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-200">
+                <tr>
+                  <td class="p-3.5 font-bold text-emerald-400">1. الخاطرة (الهمس)</td>
+                  <td class="p-3.5 text-slate-300">التشتت والأفكار السلبية السريعة</td>
+                  <td class="p-3.5 text-emerald-300 font-semibold">تدوين الخاطرة الإيجابية فوراً في دفتر التزكية.</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-bold text-teal-400">2. الفكرة (الصوغ)</td>
+                  <td class="p-3.5 text-slate-300">تعقيد الهدف وجعله كبيراً جداً</td>
+                  <td class="p-3.5 text-teal-300 font-semibold">تبسيط الهدف لعادة استغراقها أقل من دقيقتين.</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-bold text-indigo-400">3. الإرادة (القرار)</td>
+                  <td class="p-3.5 text-slate-300">فتور الرغبة والتردد القلبي</td>
+                  <td class="p-3.5 text-indigo-300 font-semibold">استحضار النية والغايات الإيمانية.</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-bold text-amber-400">4. العزم (التفويض)</td>
+                  <td class="p-3.5 text-slate-300">التسويف والأعذار المفاجئة</td>
+                  <td class="p-3.5 text-amber-300 font-semibold">قاعدة الـ 5 ثوانٍ + التفويض القلبي للانطلاق.</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-bold text-emerald-300">5. الفعل (الميكرو)</td>
+                  <td class="p-3.5 text-slate-300">الشعور بالإجهاد أو عدم الانتظام</td>
+                  <td class="p-3.5 text-emerald-200 font-semibold">التركيز على أدنى حد ممكن دون انقطاع.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: SMART COACH ================= -->
+      <section id="tab-coach" class="tab-content hidden space-y-6 animate-fade-in">
+        <div class="bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-800 shadow-xl space-y-5">
+          <div class="space-y-2">
+            <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[11px] px-3 py-1 rounded-full font-bold inline-block">مجاني للجميع</span>
+            <h2 class="text-xl font-extrabold text-slate-100">🧠 الموجه الذكي لتفكيك السلوك والتشتت</h2>
+            <p class="text-xs text-slate-400 leading-relaxed">أدخل أي مشكلة سلوكية مواجهة (مثل: التسويف، تصفح الموبايل الزائد) لتفكيكها خماسياً.</p>
+          </div>
+
+          <textarea id="challengeInput" rows="3" class="w-full p-4 bg-slate-950 border border-slate-700 rounded-2xl text-xs text-slate-100 focus:outline-none focus:border-emerald-500 transition" placeholder="مثال: مش قادر أدرس التوجيهي وكل شوية بفتح الإنستغرام..."></textarea>
+          
+          <button onclick="runSmartCoach()" class="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-xs px-6 py-3.5 rounded-xl shadow transition flex items-center space-x-2 space-x-reverse">
+            <span>🚀 تفكيك المشكلة وإظهار الخاطرة البديلة</span>
+          </button>
+
+          <div id="coachResult" class="hidden bg-slate-950 p-5 rounded-2xl border border-emerald-800/60 space-y-3 text-xs">
+            <h4 class="font-bold text-emerald-300">نتيجة تفكيك الموجه الذكي:</h4>
+            <div class="space-y-2 text-slate-300">
+              <p>• <strong>الخاطرة البديلة:</strong> "سأدرس دقيقتين فقط الآن ثم أستريح."</p>
+              <p>• <strong>فرملة 120 ثانية:</strong> ضع الهاتف في غرفة أخرى وافتح الصفحة الأولى فقط.</p>
+              <p>• <strong>العادة الميكروية المقترحة:</strong> قراءة فقرة واحدة من الدرس.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: TRACKER ================= -->
+      <section id="tab-tracker" class="tab-content hidden space-y-6 animate-fade-in">
+        <div class="bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-800 space-y-6 shadow-xl">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-xl font-bold text-slate-100">📊 سجل شيفرة السلوك الأسبوعي (7 أيام)</h2>
+              <p class="text-xs text-slate-400">تتبع استمرارية عاداتك الميكروية اليومية بنقرة واحدة.</p>
+            </div>
+            <button onclick="switchTab('workbook')" class="px-4 py-2 bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-xl text-xs font-bold hover:bg-emerald-900 transition">
+              + إضافة عادة جديدة من الكتيب
+            </button>
+          </div>
+
+          <div id="habitsListContainer" class="space-y-4">
+            <!-- Habits rendered dynamically via JS -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= PAYWALL MODAL ================= -->
+    <div id="paywallModal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-lg w-full p-6 md:p-8 space-y-6 relative shadow-2xl">
+        
+        <button onclick="togglePaywallModal(false)" class="absolute top-4 left-4 text-slate-400 hover:text-white text-sm font-bold bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">✕</button>
+        
+        <div class="text-center space-y-2">
+          <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto border border-amber-500/40 text-2xl font-bold">
+            🔑
+          </div>
+          <h3 class="text-xl font-extrabold text-slate-50">تفعيل «كتيب شيفرة السلوك الرقمي»</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            احصل على النسخة التفاعلية الكاملة وحفظ السجلات والربط التلقائي مدى الحياة.
+          </p>
+        </div>
+
+        <!-- Local vs International Currency Tabs -->
+        <div class="bg-slate-950 p-5 rounded-2xl border border-emerald-800/60 space-y-4">
+          
+          <div class="flex border-b border-slate-800 pb-3 justify-between items-center">
+            <div>
+              <span class="font-extrabold text-sm text-slate-100 block">رسوم التفعيل المباشر</span>
+              <span class="text-[10px] text-emerald-400">داخل الأردن (CliQ / زين كاش) أو تحويل دولي</span>
+            </div>
+            <div class="text-right">
+              <span id="priceDisplay" class="text-xl font-black text-amber-400 block">10.00 JOD</span>
+              <span class="text-[10px] text-slate-400">أو $10 USD للدول الأخرى</span>
+            </div>
+          </div>
+
+          <!-- Account Details -->
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between items-center bg-slate-900 p-3 rounded-xl border border-slate-800">
+              <span class="text-slate-400">اسم المستفيد / CliQ Alias:</span>
+              <span class="font-bold text-emerald-300 font-mono">WASBIR</span>
+            </div>
+            <div class="flex justify-between items-center bg-slate-900 p-3 rounded-xl border border-slate-800">
+              <span class="text-slate-400">رقم الموبايل (زين كاش / CliQ / واتساب):</span>
+              <span class="font-bold text-amber-300 font-mono">0799143927</span>
+            </div>
+          </div>
+
+          <!-- WhatsApp Direct Link -->
+          <a href="https://wa.me/962799143927?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D9%82%D9%85%D8%AA%20%D8%A8%D8%AA%D8%AD%D9%88%D9%8A%D9%84%20%D8%A7%D9%84%D9%85%D8%A8%D9%84%D8%BA%20%2810%20%D8%AF%D9%86%D8%A7%D9%86%D9%8A%D8%B1%20%D8%A3%D9%88%2010%20%D8%AF%D9%88%D9%84%D8%A7%D8%B1%29%20%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D9%83%D8%AA%D9%8A%D8%A8%20%D8%B4%D9%8A%D9%81%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B3%D9%84%D9%88%D9%83%2D%20%D9%8A%D8%B1%D8%AC%D9%89%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84." target="_blank" class="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center space-x-2 space-x-reverse">
+            <span>📲 إرسال إشعار التحويل عبر الواتساب للحصول على الرمز</span>
+          </a>
+        </div>
+
+        <!-- Activation Code Input -->
+        <div class="space-y-2 border-t border-slate-800 pt-4 text-xs">
+          <label class="font-bold text-slate-300 block">أدخل رمز التفعيل الذي وصلك:</label>
+          <div class="flex gap-2">
+            <input type="text" id="activationCodeInput" placeholder="رمز التفعيل (مثال: WASBIR2026)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-100 uppercase focus:outline-none focus:border-amber-500 font-mono">
+            <button onclick="activateCode()" class="px-5 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition">تفعيل</button>
+          </div>
+          <p class="text-[10px] text-slate-500 text-center mt-2">رمز تجريبي فوري للمعاينة: <strong class="text-slate-300 font-mono">WASBIR2026</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-6 text-center text-xs">
+      <p>برنامج «واصبر نفسك» & كتيب «شيفرة السلوك الرقمي» — جميع الحقوق محفوظة © 2026</p>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    let isUnlocked = localStorage.getItem('wasbir_unlocked') === 'true';
+    let habits = JSON.parse(localStorage.getItem('wasbir_habits_v4')) || [
+      { id: 1, name: 'تدوين الخاطرة الصباحية (دقيقتان)', days: [true, true, false, true, false, false, false] }
+    ];
+
+    // Initialize UI status
+    document.addEventListener('DOMContentLoaded', () => {
+      updateUnlockUI();
+      renderHabits();
+    });
+
+    function updateUnlockUI() {
+      const badgeIcon = document.getElementById('badgeIcon');
+      const badgeText = document.getElementById('badgeText');
+      const workbookStatusBanner = document.getElementById('workbookStatusBanner');
+
+      if (isUnlocked) {
+        badgeIcon.innerText = '✓';
+        badgeText.innerText = 'الكتيب مفعل مدى الحياة';
+        document.getElementById('activationBadgeBtn').className = "px-4 py-2 bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold text-xs rounded-xl flex items-center space-x-1.5 space-x-reverse";
+        if (workbookStatusBanner) {
+          workbookStatusBanner.innerHTML = `<span class="text-xs text-emerald-400 font-bold bg-emerald-950 border border-emerald-800 px-3 py-1 rounded-full">النسخة التفاعلية مفعّلة بالكامل ✓</span>`;
+        }
+      }
+    }
+
+    function switchTab(tabKey) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-700', 'text-white', 'shadow-md');
+        btn.classList.add('text-slate-400');
+      });
+
+      document.getElementById('tab-' + tabKey).classList.remove('hidden');
+      const activeBtn = document.getElementById('btn-' + tabKey);
+      activeBtn.classList.add('bg-emerald-700', 'text-white', 'shadow-md');
+      activeBtn.classList.remove('text-slate-400');
+
+      if (tabKey === 'tracker') renderHabits();
+    }
+
+    function togglePaywallModal(show) {
+      document.getElementById('paywallModal').classList.toggle('hidden', !show);
+    }
+
+    function saveWorkbookEntry() {
+      if (!isUnlocked) {
+        togglePaywallModal(true);
+        return;
+      }
+      const habitVal = document.getElementById('wbHabit').value.trim();
+      const triggerVal = document.getElementById('wbTrigger').value.trim();
+
+      if (!habitVal) {
+        alert("يرجى كتابة العادة الميكروية أولاً في الكتيب!");
+        return;
+      }
+
+      const habitName = triggerVal ? `بعد أن (${triggerVal}) سأقوم بـ (${habitVal})` : habitVal;
+      habits.unshift({ id: Date.now(), name: habitName, days: [false, false, false, false, false, false, false] });
+      localStorage.setItem('wasbir_habits_v4', JSON.stringify(habits));
+      alert("✨ تم حفظ العادة من الكتيب الرقمي ونقلها لمتابعة الأيام السبعة بنجاح!");
+      switchTab('tracker');
+    }
+
+    function activateCode() {
+      const code = document.getElementById('activationCodeInput').value.trim().toUpperCase();
+      if (code === 'WASBIR2026' || code === 'SHIFRA7') {
+        isUnlocked = true;
+        localStorage.setItem('wasbir_unlocked', 'true');
+        updateUnlockUI();
+        togglePaywallModal(false);
+        alert('🎉 تم تفعيل الكتيب التفاعلي بنجاح مدى الحياة!');
+      } else {
+        alert('رمز التفعيل غير صحيح. حاول استخدام الرمز التجريبي: WASBIR2026');
+      }
+    }
+
+    function toggleHabitDay(habitId, dayIndex) {
+      habits = habits.map(h => {
+        if (h.id === habitId) {
+          const newDays = [...h.days];
+          newDays[dayIndex] = !newDays[dayIndex];
+          return { ...h, days: newDays };
+        }
+        return h;
+      });
+      localStorage.setItem('wasbir_habits_v4', JSON.stringify(habits));
+      renderHabits();
+    }
+
+    function deleteHabit(habitId) {
+      if (confirm('هل أنت تأكد من حذف هذه العادة؟')) {
+        habits = habits.filter(h => h.id !== habitId);
+        localStorage.setItem('wasbir_habits_v4', JSON.stringify(habits));
+        renderHabits();
+      }
+    }
+
+    function renderHabits() {
+      const container = document.getElementById('habitsListContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (habits.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">لا توجد عادات مسجلة حالياً. أضف عادتك الأولى من الكتيب الرقمي!</p>`;
+        return;
+      }
+
+      const daysOfWeek = ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'];
+
+      habits.forEach(h => {
+        const count = h.days.filter(Boolean).length;
+        const item = document.createElement('div');
+        item.className = 'p-4 bg-slate-950 border border-slate-800 rounded-2xl space-y-3';
+        
+        let daysHtml = daysOfWeek.map((day, idx) => `
+          <button onclick="toggleHabitDay(${h.id}, ${idx})" class="h-9 rounded-xl font-bold text-xs border transition ${
+            h.days[idx] ? 'bg-emerald-600 text-white border-emerald-500' : 'bg-slate-900 text-slate-500 border-slate-800 hover:text-slate-300'
+          }">
+            ${day}
+          </button>
+        `).join('');
+
+        item.innerHTML = `
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-slate-100">${h.name}</span>
+            <div class="flex items-center space-x-2 space-x-reverse">
+              <span class="text-emerald-400 bg-emerald-950 border border-emerald-800 px-2.5 py-0.5 rounded-full font-mono">${count} / 7 أيام</span>
+              <button onclick="deleteHabit(${h.id})" class="text-slate-500 hover:text-rose-400 px-1 text-xs">✕</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-7 gap-1.5">
+            ${daysHtml}
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function runSmartCoach() {
+      const val = document.getElementById('challengeInput').value.trim();
+      if (!val) {
+        alert("يرجى كتابة التحدي أولاً!");
+        return;
+      }
+      document.getElementById('coachResult').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
